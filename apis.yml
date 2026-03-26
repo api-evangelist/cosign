@@ -1,11 +1,19 @@
 aid: cosign
 name: Cosign
 description: >-
-  Cosign is a tool for container signing, verification, and storage in an OCI registry, part of the Sigstore project.
+  Cosign is a command line tool for signing, verifying, and storing container
+  images and other artifacts in OCI registries. It is part of the Sigstore
+  project and supports keyless signing using OpenID Connect identity providers
+  including Google, GitHub, and Microsoft.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Containers
+  - Security
+  - Code Signing
+  - Supply Chain
+  - Verification
+  - Open Source
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cosign/refs/heads/main/apis.yml
 created: '2026-03-26'
@@ -15,14 +23,37 @@ apis:
   - aid: cosign:cosign
     name: Cosign
     description: >-
-      Cosign is a tool for container signing, verification, and storage in an OCI registry, part of the Sigstore project.
-    humanURL: https://github.com/api-evangelist/cosign
+      Cosign is a command line tool for signing, verifying, and storing container
+      images and other artifacts in OCI registries. It supports keyless signing,
+      hardware key signing, and integration with transparency logs for software
+      supply chain security.
+    humanURL: https://docs.sigstore.dev/cosign/overview/
     tags:
       - Containers
-    properties: []
+      - Security
+      - Code Signing
+      - Supply Chain
+      - Verification
+    properties:
+      - type: Documentation
+        url: https://docs.sigstore.dev/cosign/overview/
+      - type: Getting Started
+        url: https://docs.sigstore.dev/quickstart/quickstart-cosign/
 common:
   - type: Website
-    url: https://github.com/api-evangelist/cosign
+    url: https://www.sigstore.dev/
+  - type: Documentation
+    url: https://docs.sigstore.dev/cosign/overview/
+  - type: Getting Started
+    url: https://docs.sigstore.dev/quickstart/quickstart-cosign/
+  - type: Installation
+    url: https://docs.sigstore.dev/cosign/system_config/installation/
+  - type: GitHub Organization
+    url: https://github.com/sigstore
+  - type: GitHub Repository
+    url: https://github.com/sigstore/cosign
+  - type: Blog
+    url: https://blog.sigstore.dev/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
