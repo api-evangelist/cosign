@@ -1,0 +1,13 @@
+{
+  "repo": "cosign",
+  "feeds": [
+    {
+      "source": "https://blog.sigstore.dev/",
+      "feed_url": "https://blog.sigstore.dev/index.xml",
+      "saved": 10,
+      "title": "Sigstore Blog on Sigstore Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:26:22Z"
+}
