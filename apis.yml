@@ -1,6 +1,6 @@
 aid: cosign
 name: Cosign
-x-type: opensource
+kind: opensource
 description: >-
   Cosign is the command-line client of the Sigstore project for signing,
   verifying, and storing container images, OCI artifacts, blobs, and
@@ -131,7 +131,7 @@ common:
     url: https://github.com/sigstore/cosign/blob/main/LICENSE
   - type: Security
     url: https://github.com/sigstore/cosign/security
-  - type: Roadmap
+  - type: RoadMap
     url: https://github.com/sigstore/cosign/blob/main/ROADMAP.md
 maintainers:
   - FN: Kin Lane
