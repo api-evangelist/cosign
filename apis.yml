@@ -107,6 +107,8 @@ apis:
       - OIDC
       - Sigstore
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/sigstore
   - type: Website
     url: https://www.sigstore.dev/
   - type: Documentation
