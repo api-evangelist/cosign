@@ -121,7 +121,7 @@ common:
     url: https://github.com/sigstore
   - type: GitHubRepository
     url: https://github.com/sigstore/cosign
-  - type: Releases
+  - type: ReleaseNotes
     url: https://github.com/sigstore/cosign/releases
   - type: Blog
     url: https://blog.sigstore.dev/
