@@ -107,6 +107,8 @@ apis:
       - OIDC
       - Sigstore
 common:
+  - type: DomainSecurity
+    url: security/cosign-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/sigstore
   - type: Website
