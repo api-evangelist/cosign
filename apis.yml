@@ -40,6 +40,23 @@ tags:
   - Keyless
   - OCI
   - OIDC
+  - Open-Source
+  - Rekor
+  - Sigstore
+  - Supply Chain
+  - Transparency Log
+  - Verification
+tags_raw:
+  - Apache 2.0
+  - Attestations
+  - CLI
+  - Code Signing
+  - Containers
+  - Fulcio
+  - Go
+  - Keyless
+  - OCI
+  - OIDC
   - Open Source
   - Rekor
   - Sigstore
