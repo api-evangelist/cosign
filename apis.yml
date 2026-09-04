@@ -39,7 +39,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cosign.png
 type: Index
 access: Public
-position: Provider
+position: Producing
 tags:
   - Apache 2.0
   - Attestations
