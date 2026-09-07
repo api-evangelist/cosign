@@ -1,0 +1,29 @@
+generated: '2026-09-07'
+method: generated
+source: >-
+  Packaged Agent Skills generated from Cosign's published CLI reference
+  (https://github.com/sigstore/cosign/tree/main/doc) and its own specification documents in
+  https://github.com/sigstore/cosign/tree/main/specs . Cosign publishes NO OpenAPI — the CLI is the
+  contract — so every step is grounded in a command and flag verified verbatim in that reference
+  rather than in an operationId. Cross-cutting rules cite ../conventions/, ../errors/,
+  ../authentication/, ../sandbox/ and ../data-model/.
+searched_first: true
+searched_result: >-
+  No provider-published Agent Skills, AGENTS.md or skills/ directory exists in
+  github.com/sigstore/cosign as of 2026-09-07 (full repository tree read via the GitHub API).
+skills:
+  - file: cosign-verify-container-image.md
+    name: Verify a container image signature
+    api: cli/cosign-cli.yml
+    operations: [cosign verify, cosign tree, cosign version]
+    consequence: read-only
+  - file: cosign-sign-container-image-keyless.md
+    name: Sign a container image keylessly
+    api: cli/cosign-cli.yml
+    operations: [cosign sign, cosign verify, cosign tree, cosign clean]
+    consequence: irreversible-side-effect
+  - file: cosign-attest-and-verify-sbom.md
+    name: Attest an SBOM and verify it
+    api: cli/cosign-cli.yml
+    operations: [cosign attest, cosign verify-attestation, cosign download attestation, cosign tree, cosign clean]
+    consequence: irreversible-side-effect

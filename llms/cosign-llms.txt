@@ -1,0 +1,88 @@
+# Cosign
+
+> Cosign is the command-line client of the Sigstore project for signing, verifying and storing
+> container images, OCI artifacts, blobs and in-toto attestations. It supports keyless signing using
+> OIDC identity providers by obtaining short-lived certificates from the Fulcio certificate authority
+> and recording signing events in the Rekor transparency log. Signatures and attestations are stored
+> alongside the signed artifact in any OCI-compliant registry. Apache-2.0, open source, no account,
+> no pricing.
+
+Generated 2026-09-07 by the API Evangelist enrichment pipeline from this repository's apis.yml and
+artifacts. Not published by Sigstore — https://docs.sigstore.dev/llms.txt returned HTTP 404 on
+2026-09-07, as did every /.well-known/ path on every Sigstore host.
+
+## What Cosign is, and is not
+
+- Cosign is a CLI. It publishes **no HTTP API and no OpenAPI of its own.**
+- It calls three Sigstore public-good services: Fulcio (CA, https://fulcio.sigstore.dev), Rekor
+  (transparency log, https://rekor.sigstore.dev) and a timestamp authority, plus a TUF-distributed
+  trust root. Those are sibling projects in the same GitHub organization, not Cosign endpoints.
+- The importable first-party library is the Go module `github.com/sigstore/cosign/v3`. There is no
+  first-party JavaScript, Python, Ruby, Java or Rust client. The npm package named "cosign" is an
+  unrelated Bitcoin tool.
+
+## The one thing an agent must know before acting
+
+Keyless signing writes a **permanent, public, unremovable** entry to the Rekor append-only
+transparency log, including the signer's OIDC identity. `cosign clean` reverses the registry side
+only. There is no delete, no redact and no expiry on the log side. Rehearse against the sigstage.dev
+staging deployment first.
+
+## Documentation
+
+- [Cosign docs](https://docs.sigstore.dev/cosign/)
+- [Quickstart](https://docs.sigstore.dev/quickstart/quickstart-cosign/)
+- [Installation](https://docs.sigstore.dev/cosign/system_config/installation/)
+- [Signing overview](https://docs.sigstore.dev/cosign/signing/overview/)
+- [Verifying](https://docs.sigstore.dev/cosign/verifying/verify/)
+- [Key management](https://docs.sigstore.dev/cosign/key_management/overview/)
+- [Public deployment and staging](https://docs.sigstore.dev/cosign/system_config/public_deployment/)
+- [CLI reference (generated, in-repo)](https://github.com/sigstore/cosign/tree/main/doc)
+- [Specifications](https://github.com/sigstore/cosign/tree/main/specs)
+
+## Source and releases
+
+- [GitHub repository](https://github.com/sigstore/cosign)
+- [GitHub organization](https://github.com/sigstore)
+- [Releases](https://github.com/sigstore/cosign/releases) — v3.1.3 and v2.6.5, both 2026-08-06
+- [CHANGELOG.md](https://github.com/sigstore/cosign/blob/main/CHANGELOG.md) — lags releases; stops at v3.0.5
+- [Versioning and deprecation policy](https://github.com/sigstore/cosign/blob/main/VERSIONING.md)
+- [CLI conventions](https://github.com/sigstore/cosign/blob/main/CLI.md)
+- [Security policy](https://github.com/sigstore/.github/blob/main/SECURITY.md) — security@sigstore.dev, 24h acknowledgement
+- [Status page](https://status.sigstore.dev/)
+
+## Install
+
+- `go install github.com/sigstore/cosign/v3/cmd/cosign@latest`
+- `brew install cosign`
+- `docker run --rm ghcr.io/sigstore/cosign/cosign:v3.1.3 version`
+- GitHub Actions: `uses: sigstore/cosign-installer@main`
+
+## Artifacts in this repository
+
+- packages/cosign-packages.yml — every distribution channel with version and release date
+- cli/cosign-cli.yml — the full command surface, grouped, with install methods and deprecations
+- authentication/cosign-authentication.yml — the OIDC keyless model, KMS URIs, hardware tokens
+- conventions/cosign-conventions.yml — output contract, idempotency (none) and reversibility
+- errors/cosign-error-codes.yml — the documented exit codes 10-13
+- lifecycle/cosign-lifecycle.yml — versioning, 6-month deprecation window, support policy, 99.5% SLO
+- changelog/cosign-changelog.yml — two release lines, two channels, one of them stale
+- conformance/cosign-conformance.yml — the supply-chain standards Cosign declares and CI-tests
+- sandbox/cosign-sandbox.yml — the sigstage.dev staging deployment
+- data-model/cosign-data-model.yml — signature, bundle, attestation, predicate, SBOM, log entry
+- security/cosign-vulnerability-disclosure.yml — the Security Response Committee process
+- security/cosign-domain-security.yml — TLS/HSTS/DNSSEC/CAA/SPF/DMARC probe
+- well-known/cosign-well-known.yml — 35 probes across 5 hosts, all misses
+- mcp/cosign-mcp.yml — candidate only; no MCP server exists
+- skills/ — three packaged agent skills grounded in verified commands
+- plans/cosign-plans-pricing.yml — zero plans; free open source
+- rate-limits/cosign-rate-limits.yml — no published request limits, no rate-limit headers
+
+## Optional
+
+- [Sigstore blog](https://blog.sigstore.dev/)
+- [Sigstore community](https://www.sigstore.dev/community)
+- [Sigstore roadmap](https://github.com/sigstore/community/blob/main/ROADMAP.md)
+- [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/sigstore/cosign) — 8.1 on 2026-09-06
+- [Rekor transparency log](https://docs.sigstore.dev/logging/overview/)
+- [Fulcio certificate authority](https://docs.sigstore.dev/certificate_authority/overview/)

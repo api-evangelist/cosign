@@ -1,0 +1,81 @@
+specification: API Commons MCPServer
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: derived
+status: candidate
+source: >-
+  Derived from the published Cosign CLI reference at
+  https://github.com/sigstore/cosign/tree/main/doc . Searched for a first-party server on
+  2026-09-07 (web search plus the sigstore GitHub organization); none exists.
+description: >-
+  NO OFFICIAL MCP SERVER EXISTS for Cosign or for any Sigstore project as of 2026-09-07. Neither a
+  hosted endpoint nor a published stdio package was found. The tool list below is a CANDIDATE derived
+  from Cosign's own documented CLI commands so the shape of a future server is recorded; it is not
+  something an agent can call today, and no MCPServer pointer is emitted for it.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+search_evidence:
+  - what: Web search for an official Sigstore/Cosign MCP server
+    date: '2026-09-07'
+    result: >-
+      No first-party server found. Results discuss using cosign to SIGN MCP servers and their
+      container images — the inverse relationship — not a Cosign MCP server.
+  - what: sigstore GitHub organization
+    url: https://github.com/sigstore
+    date: '2026-09-07'
+    result: No mcp-server repository.
+  - what: /.well-known/ probes across all five Sigstore hosts
+    file: well-known/cosign-well-known.yml
+    date: '2026-09-07'
+    result: No ai-plugin.json, no agent card, nothing naming an MCP endpoint.
+candidate_tools:
+  - name: cosign_verify
+    description: Verify a signature on a container image against an identity or key.
+    backing_command: cosign verify
+    consequence: read-only
+  - name: cosign_verify_blob
+    description: Verify a signature on a blob.
+    backing_command: cosign verify-blob
+    consequence: read-only
+  - name: cosign_verify_attestation
+    description: Verify an in-toto attestation on a container image.
+    backing_command: cosign verify-attestation
+    consequence: read-only
+  - name: cosign_tree
+    description: List signatures, SBOMs and attestations attached to an image.
+    backing_command: cosign tree
+    consequence: read-only
+  - name: cosign_download_sbom
+    description: Download an SBOM attached to an image.
+    backing_command: cosign download sbom
+    consequence: read-only
+  - name: cosign_download_attestation
+    description: Download an attestation attached to an image.
+    backing_command: cosign download attestation
+    consequence: read-only
+  - name: cosign_sign
+    description: Sign a container image.
+    backing_command: cosign sign
+    consequence: irreversible-side-effect
+    warning: >-
+      Keyless signing writes a permanent, public entry to the Rekor transparency log, including the
+      signer identity. It cannot be undone. See conventions/cosign-conventions.yml reversibility.
+  - name: cosign_attest
+    description: Create and attach an attestation to a container image.
+    backing_command: cosign attest
+    consequence: irreversible-side-effect
+  - name: cosign_clean
+    description: Remove attached signatures/attestations from an image in a registry.
+    backing_command: cosign clean
+    consequence: destructive-but-reversal-only
+    note: Reverses the registry-side effect of sign/attest; does NOT remove the transparency-log entry.
+note: >-
+  Wired into apis.yml as X-MCPServerCandidate, NOT as MCPServer, because no server exists to point
+  at. Promote it only if Sigstore publishes one.

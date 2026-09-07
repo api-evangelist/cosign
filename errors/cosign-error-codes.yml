@@ -1,0 +1,63 @@
+specification: API Commons ErrorCatalog
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: https://github.com/sigstore/cosign/blob/main/doc/cosign_exit_codes.md
+description: >-
+  Cosign is a CLI, so its error contract is an exit-code table rather than an HTTP problem-details
+  document. The project publishes a small, explicit set of verification-failure exit codes so that CI
+  systems can distinguish "no signature" from "wrong signature" without parsing text. The
+  documentation carries an explicit stability caveat.
+format: exit-codes
+envelope:
+  stream: stderr
+  note: >-
+    Error and diagnostic text goes to STDERR, which CLI.md declares informational only and NOT
+    covered by the versioning policy. Only the exit code and documented STDOUT format are stable
+    surfaces to script against.
+stability_caveat: >-
+  "The following exit codes may be subject to change" — stated verbatim at the top of
+  doc/cosign_exit_codes.md.
+error_codes:
+  - code: 10
+    meaning: Error verifying image due to no signature
+    surface: cosign verify
+    remediation: >-
+      The image has no signature attached at all. Sign it (`cosign sign`) or verify the correct
+      digest/tag.
+  - code: 11
+    meaning: Error verifying image due to non-existent tag
+    surface: cosign verify
+    remediation: >-
+      The reference does not resolve in the registry. Check the repository, tag and registry
+      credentials (`cosign login`).
+  - code: 12
+    meaning: Error verifying image due to no matching signature
+    surface: cosign verify
+    remediation: >-
+      Signatures exist but none satisfies the supplied identity/key constraints. Check --key,
+      --certificate-identity and --certificate-oidc-issuer.
+  - code: 13
+    meaning: Error verifying image due to no certificate found on signature
+    surface: cosign verify
+    remediation: >-
+      A keyless verification was requested against a signature carrying no certificate. Supply the
+      public key with --key, or verify an artifact signed keylessly.
+counts:
+  documented_codes: 4
+consumed_api_errors:
+  - api: Sigstore Rekor
+    envelope: '{"code": <int>, "message": "<string>"}'
+    media_type: application/json
+    example_observed:
+      url: https://rekor.sigstore.dev/.well-known/security.txt
+      status: 404
+      body: '{"code":404,"message":"path /openapi.json was not found"}'
+      checked: '2026-09-07'
+    rfc9457: false
+    note: >-
+      Recorded for completeness because Cosign surfaces these to the user. Rekor is a sibling
+      Sigstore service, not a Cosign endpoint; its full error surface belongs to the rekor contract
+      at https://raw.githubusercontent.com/sigstore/rekor/main/openapi.yaml.

@@ -75,7 +75,7 @@ tags_raw:
   - Transparency Log
   - Verification
 created: '2026-03-26'
-modified: '2026-04-28'
+modified: '2026-09-07'
 specificationVersion: '0.23'
 apis:
   - aid: cosign:cosign-cli
@@ -97,7 +97,7 @@ apis:
       - type: GitHubRepository
         url: https://github.com/sigstore/cosign
       - type: Reference
-        url: https://docs.sigstore.dev/cosign/reference/cosign/
+        url: https://github.com/sigstore/cosign/tree/main/doc
     tags:
       - CLI
       - Containers
@@ -111,7 +111,10 @@ apis:
       from when recording and verifying signing events. The public Rekor
       service exposes a REST API at rekor.sigstore.dev with operations for
       creating log entries, retrieving entries by index or UUID, fetching
-      log info and proofs, and searching the index.
+      log info and proofs, and searching the index. Ownership: Rekor is a sibling project of
+      Cosign inside the same GitHub organization (github.com/sigstore) and the same OpenSSF
+      Sigstore project. It is recorded here as a CONSUMED dependency of the Cosign CLI, not as an
+      API Cosign produces; the Rekor contract is profiled in its own right under all/sigstore.
     humanURL: https://docs.sigstore.dev/logging/overview/
     baseURL: https://rekor.sigstore.dev
     properties:
@@ -132,12 +135,18 @@ apis:
       Fulcio is the Sigstore certificate authority that issues short-lived
       X.509 code-signing certificates bound to OIDC identities. Cosign calls
       the Fulcio public CA at fulcio.sigstore.dev during keyless signing to
-      obtain a certificate for a verified identity.
+      obtain a certificate for a verified identity. Ownership: Fulcio is a sibling project of
+      Cosign inside the same GitHub organization (github.com/sigstore) and the same OpenSSF
+      Sigstore project; its published contract at fulcio.swagger.json declares
+      host fulcio.sigstore.dev, matching the baseURL below. It is recorded here as a CONSUMED
+      dependency of the Cosign CLI, not as an API Cosign produces.
     humanURL: https://docs.sigstore.dev/certificate_authority/overview/
     baseURL: https://fulcio.sigstore.dev
     properties:
       - type: Documentation
         url: https://docs.sigstore.dev/certificate_authority/overview/
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/sigstore/fulcio/main/fulcio.swagger.json
       - type: GitHubRepository
         url: https://github.com/sigstore/fulcio
     tags:
@@ -174,7 +183,7 @@ common:
   - type: Blog
     url: https://blog.sigstore.dev/
   - type: Community
-    url: https://docs.sigstore.dev/about/community/
+    url: https://www.sigstore.dev/community
   - type: Slack
     url: https://sigstore.slack.com/
   - type: License
@@ -182,7 +191,54 @@ common:
   - type: Security
     url: https://github.com/sigstore/cosign/security
   - type: RoadMap
-    url: https://github.com/sigstore/cosign/blob/main/ROADMAP.md
+    url: https://github.com/sigstore/community/blob/main/ROADMAP.md
+  - type: DeveloperPortal
+    url: https://docs.sigstore.dev/
+  - type: Packages
+    url: packages/cosign-packages.yml
+  - type: SDKs
+    url: packages/cosign-packages.yml
+  - type: CLI
+    url: cli/cosign-cli.yml
+  - type: ChangeLog
+    url: changelog/cosign-changelog.yml
+  - type: Lifecycle
+    url: lifecycle/cosign-lifecycle.yml
+  - type: StatusPage
+    url: https://status.sigstore.dev/
+  - type: Deprecation
+    url: https://github.com/sigstore/cosign/blob/main/VERSIONING.md
+  - type: VulnerabilityDisclosure
+    url: security/cosign-vulnerability-disclosure.yml
+  - type: Conformance
+    url: conformance/cosign-conformance.yml
+  - type: Sandbox
+    url: sandbox/cosign-sandbox.yml
+  - type: Conventions
+    url: conventions/cosign-conventions.yml
+  - type: ErrorCatalog
+    url: errors/cosign-error-codes.yml
+  - type: Authentication
+    url: authentication/cosign-authentication.yml
+  - type: DataModel
+    url: data-model/cosign-data-model.yml
+  - type: LLMsTxt
+    url: llms/cosign-llms.txt
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: X-MCPServerCandidate
+    url: mcp/cosign-mcp.yml
+  - type: Plans
+    url: plans/cosign-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/cosign-rate-limits.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-07'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v3
+x-parent: sigstore
+x-relationship: product

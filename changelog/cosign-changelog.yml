@@ -1,0 +1,103 @@
+specification: API Commons ChangeLog
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://github.com/sigstore/cosign/releases (GitHub Releases API, read 2026-09-07) and
+  https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+description: >-
+  Cosign publishes release notes in two places and they are not in sync. GitHub Releases is the live
+  channel — v3.1.3 and v2.6.5 both shipped 2026-08-06. The in-repo CHANGELOG.md stops at v3.0.5, so a
+  consumer reading only the file in the repository is four releases behind. Two release lines are
+  maintained in parallel: the current v3.x line and the v2.x line, which still receives matching
+  patch releases.
+channels:
+  - name: GitHub Releases
+    url: https://github.com/sigstore/cosign/releases
+    current: true
+    note: Live channel; every release is signed and its provenance logged to Rekor.
+  - name: CHANGELOG.md
+    url: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+    current: false
+    note: >-
+      Newest entry is v3.0.5; the v3.1.x line is absent as of 2026-09-07. Structured by
+      Deprecations / Features / Bug Fixes / Documentation headings.
+  - name: Sigstore blog
+    url: https://blog.sigstore.dev/
+    current: true
+    note: Narrative release announcements, e.g. "Cosign v3 is now available" (2025-10-08).
+versioning:
+  scheme: MAJOR.MINOR.PATCH
+  semver: false
+  policy: https://github.com/sigstore/cosign/blob/main/VERSIONING.md
+  note: >-
+    VERSIONING.md is explicit that the CLI is NOT covered by semantic versioning; version numbers are
+    interpreted per that document (major = expect to rewrite scripts, minor = small changes with
+    deprecation warnings, patch = bug fixes only).
+current_version: v3.1.3
+current_version_released: '2026-08-06'
+parallel_lines:
+  - line: v3.x
+    current: v3.1.3
+    released: '2026-08-06'
+  - line: v2.x
+    current: v2.6.5
+    released: '2026-08-06'
+entries:
+  - version: v3.1.3
+    date: '2026-08-06'
+    breaking: false
+    source: https://github.com/sigstore/cosign/releases/tag/v3.1.3
+  - version: v2.6.5
+    date: '2026-08-06'
+    breaking: false
+    source: https://github.com/sigstore/cosign/releases/tag/v2.6.5
+  - version: v3.1.2
+    date: '2026-07-17'
+    breaking: false
+    source: https://github.com/sigstore/cosign/releases/tag/v3.1.2
+  - version: v2.6.4
+    date: '2026-07-17'
+    breaking: false
+    source: https://github.com/sigstore/cosign/releases/tag/v2.6.4
+  - version: v3.1.1
+    date: '2026-06-09'
+    breaking: false
+    source: https://github.com/sigstore/cosign/releases/tag/v3.1.1
+  - version: v3.0.5
+    date: '2026-02-20'
+    breaking: false
+    deprecations:
+      - Deprecate rekor-entry-type flag (#4691)
+      - Deprecate cosign triangulate (#4676)
+      - Deprecate cosign copy (#4681)
+    additions:
+      - Automatically require signed timestamp with Rekor v2 entries (#4666)
+      - Allow --local-image with --new-bundle-format for v2 and v3 signatures (#4626)
+      - Add mTLS support for TSA client connections when signing with a signing config (#4620)
+      - Enforce TSA requirement for Rekor v2, Fulcio signing (#4683)
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+  - version: v3.0.4
+    date: '2026-01-09'
+    breaking: false
+    security: true
+    highlights:
+      - Resolves GHSA-whqx-f9j3-ch6m (bundle verify path for old bundle/trusted root)
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+  - version: v2.6.2
+    date: '2026-01-09'
+    breaking: false
+    security: true
+    highlights:
+      - Backport of the GHSA-whqx-f9j3-ch6m fix to the v2 line
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+  - version: v3.0.0
+    date: '2025-10-08'
+    breaking: true
+    highlights:
+      - >-
+        Major release; announced at https://blog.sigstore.dev/cosign-v3-is-now-available/ . Under the
+        Cosign versioning policy a new major version voids all outstanding deprecation timelines.
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md

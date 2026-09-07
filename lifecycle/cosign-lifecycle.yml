@@ -1,0 +1,97 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://github.com/sigstore/cosign/blob/main/VERSIONING.md ;
+  https://github.com/sigstore/cosign/blob/main/CHANGELOG.md ; https://status.sigstore.dev/ ;
+  https://docs.sigstore.dev/logging/overview/
+description: >-
+  Cosign publishes an unusually explicit written versioning and deprecation policy for a CLI, and the
+  Sigstore public-good services it depends on publish a status page and an availability SLO.
+versioning:
+  scheme: MAJOR.MINOR.PATCH
+  semver: false
+  policy_url: https://github.com/sigstore/cosign/blob/main/VERSIONING.md
+  cli:
+    major: >-
+      "Large changes." Expect to need to rewrite scripts. No compatibility guarantees about the
+      behavior or shape of the CLI.
+    minor: >-
+      "Small changes." Scripts should continue to work if deprecation warnings have been addressed.
+    patch: Bug-fix releases only; should always be adopted.
+  covered:
+    - Any documented behavior (behavior described in the output of `cosign -h`)
+    - Output to standard output, when described in the documentation; new fields may be added, fields will not be removed
+    - Additional conventions documented in CLI.md
+  not_covered:
+    - Output to standard error
+    - Changes caused by upstream Sigstore API changes
+    - Fixes to security bugs
+    - Any "unstable" / experimental commands
+  library:
+    module: github.com/sigstore/cosign/v3
+    guarantees: none
+    note: >-
+      VERSIONING.md: the Go library ("the Cosign API") is versioned independently of the CLI and has
+      "no stability guarantees" for now. Callers not dealing with OCI registries are pointed at
+      sigstore-go instead.
+feature_stability:
+  levels:
+    - name: Experimental
+      guarantee: None; may change incompatibly or be removed at any time without warning
+      opt_in: COSIGN_EXPERIMENTAL=1
+    - name: Generally available (GA)
+      guarantee: Follows the versioning policy
+deprecation:
+  policy: true
+  policy_url: https://github.com/sigstore/cosign/blob/main/VERSIONING.md#deprecation
+  window: >-
+    6 months from the Cosign release in which the deprecation was first announced, for GA features;
+    the first subsequent release after that date should remove the feature.
+  signal: >-
+    A deprecation message is printed to standard error when the deprecated behavior is invoked, in the
+    form "WARNING: $BEHAVIOR is deprecated and will be removed in a Cosign release soon after
+    $DEPRECATION_DATE (see $GITHUB_ISSUE_LINK). Instead, please $ALTERNATIVE."
+  release_note_required: true
+  major_version_caveat: >-
+    A new major version voids all deprecation timeline guarantees; any deprecated behavior may be
+    removed at that time.
+  currently_deprecated:
+    - item: cosign triangulate
+      announced_in: v3.0.5
+    - item: cosign copy
+      announced_in: v3.0.5
+    - item: --rekor-entry-type flag
+      announced_in: v3.0.5
+support:
+  full_support: Only the latest release of the Cosign CLI.
+  security_support: >-
+    Security fixes are backported to all major versions released in the past year, and may be
+    backported to all minor versions released in the last year depending on severity.
+  service_compatibility: >-
+    From Cosign CLI v2 onward, the Sigstore infrastructure should support old Cosign versions for one
+    year past release, and six months past the availability of a suitable replacement. Breakage is
+    treated as a bug. End-to-end tests are run for all prior supported minor versions.
+status_page:
+  url: https://status.sigstore.dev/
+  status: 200
+  checked: '2026-09-07'
+  scope: >-
+    Covers the Sigstore public-good services Cosign depends on (Fulcio, Rekor, the timestamp
+    authority and the TUF root distribution), not the CLI itself.
+slo:
+  availability: 99.5%
+  scope: Rekor public instance
+  source: https://docs.sigstore.dev/logging/overview/
+  note: >-
+    "The public instance offers an SLO of 99.5% availability and is monitored by an oncall team."
+    No SLO is published for the staging (sigstage.dev) environment; the docs state staging "provides
+    neither SLO guarantees nor the same protection".
+sunset_headers:
+  rfc8594: false
+  note: >-
+    No Sunset or Deprecation HTTP headers were observed on rekor.sigstore.dev or fulcio.sigstore.dev
+    responses probed 2026-09-07. Cosign signals deprecation on stderr, not over HTTP.

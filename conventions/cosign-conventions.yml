@@ -1,0 +1,147 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://github.com/sigstore/cosign/blob/main/CLI.md ;
+  https://github.com/sigstore/cosign/blob/main/VERSIONING.md ;
+  https://github.com/sigstore/cosign/tree/main/doc ;
+  https://docs.sigstore.dev/logging/overview/
+description: >-
+  Cross-cutting operating semantics for Cosign. Cosign is a command-line client, not an HTTP service,
+  so the conventions that matter to an automating agent are the output contract, the exit codes, the
+  environment-variable surface, and — most importantly — which of its effects can be taken back and
+  which cannot.
+surface_shape:
+  kind: cli
+  http_api_published: false
+  note: >-
+    The project ships no HTTP API of its own. It calls the Sigstore public-good services (Fulcio,
+    Rekor, TSA, TUF) and an OCI registry. Conventions below describe the CLI contract.
+auth_style: >-
+  OIDC keyless by default (short-lived Fulcio certificate), or a local key / KMS URI / hardware token.
+  See authentication/cosign-authentication.yml.
+output:
+  primary_stream: stdout
+  informational_stream: stderr
+  machine_readable:
+    - command: cosign version --json
+      shape: >-
+        {gitVersion, gitCommit, gitTreeState, buildDate, goVersion, compiler, platform}
+    - command: cosign tree
+      shape: Human-oriented tree of attached signatures, attestations and SBOMs
+  stability: >-
+    CLI.md: the primary output of any command should be to STDOUT with the format described in that
+    command's documentation; STDERR is informational only. VERSIONING.md covers STDOUT format when
+    documented (new fields may be added, fields will not be removed) and explicitly does NOT cover
+    STDERR.
+  redirect_flag: --output-file
+errors:
+  style: exit-codes
+  catalog: errors/cosign-error-codes.yml
+  codes: [10, 11, 12, 13]
+  caveat: The docs state these codes "may be subject to change".
+timeouts:
+  default: 3m0s
+  flag: -t, --timeout
+pagination:
+  applicable: false
+  note: No paginated surface — cosign operates on one artifact reference at a time.
+versioning:
+  scheme: MAJOR.MINOR.PATCH (explicitly not semver)
+  policy: lifecycle/cosign-lifecycle.yml
+  experimental_opt_in: COSIGN_EXPERIMENTAL=1
+tracing:
+  request_id: false
+  note: >-
+    Cosign emits no request-id. The durable trace of a signing operation is the Rekor transparency
+    log entry itself, addressable by log index or entry UUID.
+rate_limit_signaling:
+  headers_observed: none
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After headers were returned by rekor.sigstore.dev or
+    fulcio.sigstore.dev on unauthenticated probes on 2026-09-07. See rate-limits/cosign-rate-limits.yml.
+idempotency:
+  coverage: none
+  mechanism: null
+  header: null
+  note: >-
+    Cosign publishes no idempotency-key mechanism, and has no HTTP write surface of its own to attach
+    one to. Re-running `cosign sign` on the same image produces a NEW signature and, by default, a
+    NEW transparency-log entry rather than replacing the previous one — repeated invocations
+    accumulate. The nearest replay protection anywhere in the flow belongs to the consumed Rekor API,
+    which rejects a byte-identical duplicate entry with HTTP 409 Conflict; that is Rekor's mechanism,
+    not Cosign's, so no Idempotency pointer is emitted for this provider. An agent that must not
+    double-sign should check first with `cosign verify` or `cosign tree`.
+reversibility:
+  grade: documented
+  summary: >-
+    Cosign has two write targets with opposite reversibility properties, and the difference is the
+    single most important thing an agent must know before it signs anything. Registry-side artifacts
+    can be removed; transparency-log entries cannot, ever.
+  write_surfaces:
+    - operation: cosign sign
+      target: OCI registry (signature attached to the image)
+      reversal: cosign clean
+      reversal_operation: cosign clean --type signature
+      window: >-
+        No time limit stated. `cosign clean` removes attached artifacts from the registry at any
+        time, subject to registry write permission and registry immutability settings.
+      window_stated: false
+      docs: https://github.com/sigstore/cosign/blob/main/doc/cosign_clean.md
+      note: >-
+        --type accepts signature | attestation | referrer | sbom | all (default all; sbom is
+        deprecated). -f/--force skips the confirmation prompt. Removing the registry-side signature
+        does NOT remove the corresponding transparency-log entry.
+    - operation: cosign attest
+      target: OCI registry (attestation attached to the image)
+      reversal: cosign clean
+      reversal_operation: cosign clean --type attestation
+      window: No time limit stated.
+      window_stated: false
+      docs: https://github.com/sigstore/cosign/blob/main/doc/cosign_clean.md
+    - operation: transparency-log entry (written to Rekor during keyless signing)
+      target: https://rekor.sigstore.dev
+      reversal: none
+      window: null
+      window_stated: false
+      irreversible: true
+      docs: https://docs.sigstore.dev/logging/overview/
+      note: >-
+        Rekor is an append-only Merkle transparency log. There is no delete, no redact and no expiry.
+        Anything an agent puts in it — including the OIDC identity (for an email identity, the
+        signer's email address) embedded in the Fulcio certificate — is public and permanent. An
+        agent signing on a user's behalf is publishing that identity irrevocably. Signing with
+        --tlog-upload=false avoids the log entry, at the cost of losing the timestamping and
+        verifiability that keyless signing depends on.
+    - operation: cosign login
+      target: local credential store
+      reversal: Standard registry logout / credential removal
+      window: No time limit.
+      window_stated: false
+  grade_rationale: >-
+    documented, not verified: a real reversal path exists and is documented (`cosign clean`), but no
+    reversal WINDOW is stated anywhere in the docs, and the second write target is irreversible by
+    design.
+dry_run_mode:
+  available: false
+  note: >-
+    No global --dry-run flag. The closest rehearsal path is to run the verification commands
+    (`cosign verify`, `cosign verify-attestation`, `cosign tree`) which are read-only, or to sign
+    against the sigstage.dev staging environment first — see sandbox/cosign-sandbox.yml.
+event_surface:
+  webhooks: false
+  asyncapi: false
+  note: >-
+    Cosign publishes no webhook or event-streaming surface. The observable event stream in the
+    Sigstore ecosystem is the Rekor transparency log itself, which is polled (or monitored with
+    rekor-monitor), not pushed. No AsyncAPI or Webhooks artifact is written.
+cross_links:
+  errors: errors/cosign-error-codes.yml
+  lifecycle: lifecycle/cosign-lifecycle.yml
+  authentication: authentication/cosign-authentication.yml
+  rate_limits: rate-limits/cosign-rate-limits.yml
+  cli: cli/cosign-cli.yml
+  sandbox: sandbox/cosign-sandbox.yml

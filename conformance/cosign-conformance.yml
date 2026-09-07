@@ -1,0 +1,133 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://github.com/sigstore/cosign/tree/main/specs ;
+  https://github.com/sigstore/cosign/blob/main/.github/workflows/conformance.yml ;
+  https://api.securityscorecards.dev/projects/github.com/sigstore/cosign ;
+  https://www.bestpractices.dev/projects/5715
+description: >-
+  Cosign's market is software supply chain security, and its domain standards are declared in the
+  contract itself: the project publishes five specification documents describing exactly how it
+  writes signatures, bundles, attestations and SBOMs, and runs the shared sigstore-conformance test
+  suite in CI against both the production and staging Sigstore deployments on every push and pull
+  request. Interoperability is the stated goal of those specs ("promote other implementations and
+  enable interoperability").
+domain_standard:
+  market: Software supply chain security / artifact signing
+  declared_in_contract: true
+  evidence: >-
+    specs/SIGNATURE_SPEC.md, specs/BUNDLE_SPEC.md, specs/ATTESTATION_SPEC.md,
+    specs/COSIGN_PREDICATE_SPEC.md and specs/SBOM_SPEC.md in github.com/sigstore/cosign, plus the
+    Conformance Tests workflow at .github/workflows/conformance.yml which runs the
+    sigstore/sigstore-conformance suite against the production and staging environments.
+conformance:
+  - id: sigstore-conformance
+    name: Sigstore client conformance test suite
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/.github/workflows/conformance.yml — job matrix
+      `environment: [ production, staging ]`, run on push to main and on every pull request; a
+      nightly variant runs at .github/workflows/conformance-nightly.yml. Suite:
+      https://github.com/sigstore/sigstore-conformance
+  - id: oci-image-spec-1.1
+    name: OCI Image Format Specification v1.1 (manifest / referrers / artifact guidelines)
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/specs/BUNDLE_SPEC.md — bundles are stored as
+      blobs and associated by an OCI Image Manifest v1.1 object following the OCI "guidelines for
+      artifact usage"; specs/SIGNATURE_SPEC.md defines signature storage and discovery in an OCI
+      registry.
+  - id: sigstore-bundle
+    name: Sigstore Bundle (protobuf-specs sigstore_bundle.proto)
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/specs/BUNDLE_SPEC.md — bundles serialized as
+      mediaType application/vnd.dev.sigstore.bundle.v0.3+json, defined by
+      https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto
+  - id: in-toto-attestation
+    name: in-toto Attestation Framework (Statement + predicates)
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/specs/ATTESTATION_SPEC.md and
+      specs/COSIGN_PREDICATE_SPEC.md; `cosign attest` writes DSSE-wrapped in-toto Statements with
+      payload type application/vnd.in-toto+json.
+  - id: dsse
+    name: Dead Simple Signing Envelope (DSSE)
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/specs/BUNDLE_SPEC.md — "DSSE-wrapped in-toto
+      statements" are one of the bundle payload shapes cosign attaches.
+  - id: sbom-spdx-cyclonedx
+    name: SPDX and CycloneDX SBOM attachment
+    conforms: true
+    evidence: >-
+      https://github.com/sigstore/cosign/blob/main/specs/SBOM_SPEC.md and `cosign download sbom`
+  - id: oidc
+    name: OpenID Connect (identity for keyless signing)
+    conforms: true
+    evidence: >-
+      https://fulcio.sigstore.dev/api/v2/configuration (HTTP 200, probed 2026-09-07) enumerates the
+      accepted OIDC issuers and per-issuer challenge claims that Cosign presents during keyless
+      signing.
+  - id: rfc3161
+    name: RFC 3161 Time-Stamp Protocol
+    conforms: true
+    evidence: >-
+      CHANGELOG v3.0.5 — "Automatically require signed timestamp with Rekor v2 entries" and "Enforce
+      TSA requirement for Rekor v2, Fulcio signing"; docs at
+      https://docs.sigstore.dev/cosign/verifying/timestamps/
+  - id: rfc6962-transparency-log
+    name: Certificate Transparency style Merkle transparency log (Rekor)
+    conforms: true
+    evidence: >-
+      https://rekor.sigstore.dev/api/v1/log (HTTP 200, probed 2026-09-07) returns a signed tree head
+      and inclusion state; https://docs.sigstore.dev/logging/overview/
+  - id: tuf
+    name: The Update Framework (trust root distribution)
+    conforms: true
+    evidence: >-
+      `cosign initialize` — "Initializes SigStore root to retrieve trusted certificate and key
+      targets for verification"; https://github.com/sigstore/cosign/blob/main/doc/cosign_initialize.md
+  - id: pkcs11
+    name: PKCS#11 cryptographic token interface
+    conforms: true
+    evidence: https://github.com/sigstore/cosign/blob/main/doc/cosign_pkcs11-tool.md
+  - id: piv
+    name: PIV / hardware security token (FIPS 201 card edge)
+    conforms: true
+    evidence: https://github.com/sigstore/cosign/blob/main/doc/cosign_piv-tool.md
+  - id: openssf-scorecard
+    name: OpenSSF Scorecard
+    conforms: true
+    score: 8.1
+    scored_at: '2026-09-06'
+    evidence: >-
+      https://api.securityscorecards.dev/projects/github.com/sigstore/cosign (probed 2026-09-07).
+      Perfect 10 on Code-Review, Maintained, License, Security-Policy, CI-Tests, Fuzzing,
+      Binary-Artifacts, Dangerous-Workflow, Dependency-Update-Tool and Contributors;
+      Token-Permissions scored 0 and CII-Best-Practices 2.
+  - id: openssf-best-practices
+    name: OpenSSF Best Practices badge (formerly CII)
+    conforms: false
+    evidence: >-
+      https://www.bestpractices.dev/projects/5715 — badge_level "in_progress" at 94% of the passing
+      criteria, last updated 2022-03-17. The badge has never been awarded (achieved_passing_at is
+      null), so this is recorded as not conformant rather than as a certification.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Not applicable in the usual sense — Cosign ships no HTTP API of its own. Its error contract is
+      a documented CLI exit-code table (see errors/cosign-error-codes.yml). The consumed Rekor API
+      returns a plain {code, message} JSON envelope, not application/problem+json (observed on
+      https://rekor.sigstore.dev/.well-known/security.txt, HTTP 404, 2026-09-07).
+certifications:
+  published: false
+  note: >-
+    Cosign is an Apache-2.0 open source project under the OpenSSF, not a commercial service. No SOC 2,
+    ISO 27001, PCI DSS, HIPAA or FedRAMP certification is published, and none would be expected. No
+    Compliance pointer is emitted, because there is no certification program to point at.

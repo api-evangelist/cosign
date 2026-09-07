@@ -1,0 +1,160 @@
+specification: API Commons WellKnown
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: probed
+source: direct HTTP probes of each host on 2026-09-07
+description: 'Probe of the five named /.well-known/ paths across every host this record knows: the registrable
+  domain and www, the docs host, and both Sigstore service hosts that Cosign calls. NOTHING WAS FOUND.
+  sigstore.dev and www.sigstore.dev are a Nuxt single-page app whose catch-all returns HTTP 200 with an
+  identical 4,248-byte HTML shell for every /.well-known/* path — that is a false positive, not a served
+  document. docs.sigstore.dev returns a genuine 404 page for all of them, and rekor.sigstore.dev and fulcio.sigstore.dev
+  return JSON 404s. No security.txt, no OpenID/OAuth metadata, no api-catalog, no ai-plugin.json and no
+  agent card exists on any Sigstore host. No WellKnown, SecurityTxt or AgentCard pointer is emitted —
+  this file records an absence.'
+result: none-served
+hosts:
+- host: sigstore.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+- host: www.sigstore.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: HTML shell, not a document — this host is a single-page app whose catch-all answers 200 with
+      the same 4248-byte page for every path. Treated as a miss.
+- host: docs.sigstore.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: rekor.sigstore.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: fulcio.sigstore.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null

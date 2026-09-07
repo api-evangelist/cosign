@@ -1,0 +1,71 @@
+specification: API Commons Sandbox
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: https://docs.sigstore.dev/cosign/system_config/public_deployment/
+description: >-
+  Sigstore operates a complete staging deployment — its own CA, transparency log, OIDC provider and
+  TUF root — that Cosign can be pointed at instead of the public-good production instance. It is a
+  full parallel environment, not a mocked one, and the project's own conformance suite runs against
+  both.
+sandbox:
+  available: true
+  name: Sigstore staging (sigstage.dev)
+  docs: https://docs.sigstore.dev/cosign/system_config/public_deployment/
+  separate_credentials: true
+  note: >-
+    Staging is "meant for development and testing only. It is not appropriate to use for production
+    purposes." The docs state the staging instances "are operated and maintained in the same manner
+    as the public production environment", but that the staging environment "provides neither SLO
+    guarantees nor the same protection".
+  endpoints:
+    - role: certificate-authority
+      production: https://fulcio.sigstore.dev
+      staging: https://fulcio.sigstage.dev
+    - role: transparency-log
+      production: https://rekor.sigstore.dev
+      staging: https://rekor.sigstage.dev
+    - role: oidc-issuer
+      production: https://oauth2.sigstore.dev/auth
+      staging: https://oauth2.sigstage.dev/auth
+  selection:
+    mechanism: >-
+      Cosign selects an environment through the trusted root / signing config it is initialized with
+      (`cosign initialize` against the staging TUF mirror) and through the --fulcio-url, --rekor-url
+      and --oidc-issuer flags on the signing commands.
+    commands:
+      - cosign initialize
+      - cosign trusted-root create
+      - cosign signing-config create
+experimental_mode:
+  env: COSIGN_EXPERIMENTAL=1
+  note: >-
+    VERSIONING.md requires users to opt in explicitly to experimental behavior with this variable;
+    experimental features carry no compatibility guarantee.
+test_fixtures:
+  - name: cosign test key pair
+    files:
+      - .github/workflows/cosign-test.key
+      - .github/workflows/cosign-test.pub
+    url: https://github.com/sigstore/cosign/tree/main/.github/workflows
+    note: >-
+      Password-protected test key pair committed to the repository for CI use. Recorded as published
+      by the provider; no key material is reproduced here.
+ci_verification:
+  suite: https://github.com/sigstore/sigstore-conformance
+  workflow: https://github.com/sigstore/cosign/blob/main/.github/workflows/conformance.yml
+  matrix:
+    - production
+    - staging
+  note: >-
+    The conformance workflow runs the shared Sigstore client conformance suite against BOTH the
+    production and staging environments on push to main and on every pull request, with a nightly
+    variant. This is the strongest available evidence that the staging environment is real and
+    exercised, not decorative.
+test_values:
+  published: false
+  note: >-
+    Cosign publishes no magic test identifiers, test cards or hosted test tokens — the analogue is
+    the full staging deployment above. No test values are invented here.

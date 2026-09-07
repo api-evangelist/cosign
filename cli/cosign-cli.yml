@@ -1,0 +1,165 @@
+specification: API Commons CLI
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://github.com/sigstore/cosign/blob/main/doc/cosign.md (generated CLI reference, verified
+  against the repository tree on 2026-09-07) and
+  https://github.com/sigstore/cosign/blob/main/CLI.md (CLI conventions)
+name: cosign
+description: >-
+  Cosign is the Sigstore command-line client for signing, verifying and storing signatures,
+  attestations and SBOMs for container images, OCI artifacts and blobs. The CLI is the product — the
+  project publishes no HTTP API of its own; it calls the Sigstore public-good services (Fulcio,
+  Rekor, the timestamp authority and the TUF trust root) over HTTPS.
+docs: https://docs.sigstore.dev/cosign/
+reference: https://github.com/sigstore/cosign/tree/main/doc
+conventions_doc: https://github.com/sigstore/cosign/blob/main/CLI.md
+install:
+  - method: go
+    command: go install github.com/sigstore/cosign/v3/cmd/cosign@latest
+  - method: homebrew
+    command: brew install cosign
+  - method: arch
+    command: pacman -S cosign
+  - method: alpine
+    command: apk add cosign
+  - method: nix
+    command: nix-env -iA nixpkgs.cosign
+  - method: binary
+    command: curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64"
+  - method: container
+    command: docker run --rm ghcr.io/sigstore/cosign/cosign:v3.1.3 version
+  - method: github-actions
+    command: "uses: sigstore/cosign-installer@main"
+global_flags:
+  - flag: --output-file
+    type: string
+    description: log output to a file
+  - flag: -t, --timeout
+    type: duration
+    default: 3m0s
+    description: timeout for commands
+  - flag: -d, --verbose
+    description: log debug output
+groups:
+  - name: signing
+    commands:
+      - command: cosign sign
+        summary: Sign the supplied container image
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_sign.md
+      - command: cosign sign-blob
+        summary: Sign the supplied blob, outputting the base64-encoded signature to stdout
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_sign-blob.md
+      - command: cosign attest
+        summary: Attest the supplied container image
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_attest.md
+      - command: cosign attest-blob
+        summary: Attest the supplied blob
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_attest-blob.md
+  - name: verification
+    commands:
+      - command: cosign verify
+        summary: Verify a signature on the supplied container image
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_verify.md
+      - command: cosign verify-blob
+        summary: Verify a signature on the supplied blob
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_verify-blob.md
+      - command: cosign verify-attestation
+        summary: Verify an attestation on the supplied container image
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_verify-attestation.md
+      - command: cosign verify-blob-attestation
+        summary: Verify an attestation on the supplied blob
+        doc: https://github.com/sigstore/cosign/blob/main/doc/cosign_verify-blob-attestation.md
+  - name: keys-and-hardware
+    commands:
+      - command: cosign generate-key-pair
+        summary: Generates a key-pair
+      - command: cosign import-key-pair
+        summary: Imports a PEM-encoded RSA or EC private key
+      - command: cosign public-key
+        summary: Gets a public key from the key-pair
+      - command: cosign piv-tool
+        summary: Provides utilities for managing a hardware token
+        subcommands:
+          - attestation
+          - generate-key
+          - reset
+          - set-management-key
+          - set-pin
+          - set-puk
+          - unblock
+      - command: cosign pkcs11-tool
+        summary: Provides utilities for retrieving information from a PKCS11 token
+        subcommands:
+          - list-keys-uris
+          - list-tokens
+  - name: trust-configuration
+    commands:
+      - command: cosign initialize
+        summary: >-
+          Initializes SigStore root to retrieve trusted certificate and key targets for verification
+      - command: cosign trusted-root
+        summary: Interact with a Sigstore protobuf trusted root
+        subcommands:
+          - create
+      - command: cosign signing-config
+        summary: Interact with a Sigstore protobuf signing config
+        subcommands:
+          - create
+      - command: cosign bundle
+        summary: Interact with a Sigstore protobuf bundle
+        subcommands:
+          - create
+          - inspect
+          - upgrade
+  - name: registry-and-artifacts
+    commands:
+      - command: cosign login
+        summary: Log in to a registry
+      - command: cosign download
+        summary: >-
+          Provides utilities for downloading artifacts and attached artifacts in a registry
+        subcommands:
+          - attestation
+          - sbom
+          - signature
+      - command: cosign tree
+        summary: >-
+          Display supply chain security related artifacts for an image such as signatures, SBOMs and
+          attestations
+      - command: cosign clean
+        summary: Remove all signatures from an image
+      - command: cosign save
+        summary: >-
+          Save the container image and associated signatures to disk at the specified directory
+      - command: cosign load
+        summary: Load a signed image on disk to a remote registry
+  - name: introspection
+    commands:
+      - command: cosign version
+        summary: Prints the version
+      - command: cosign env
+        summary: Prints Cosign environment variables
+      - command: cosign completion
+        summary: Generate completion script
+output_conventions:
+  primary_stream: stdout
+  informational_stream: stderr
+  note: >-
+    CLI.md states the primary output of any command goes to STDOUT with the format described in that
+    command's documentation, and that STDERR is informational only. `cosign version --json` emits a
+    documented JSON object (gitVersion, gitCommit, gitTreeState, buildDate, goVersion, compiler,
+    platform).
+deprecated_commands:
+  - command: cosign triangulate
+    announced_in: v3.0.5
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+  - command: cosign copy
+    announced_in: v3.0.5
+    source: https://github.com/sigstore/cosign/blob/main/CHANGELOG.md
+counts:
+  top_level_commands: 25
+  documented_command_pages: 44

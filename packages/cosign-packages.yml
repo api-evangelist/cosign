@@ -1,0 +1,127 @@
+specification: API Commons Packages
+specificationVersion: '0.1'
+provider: Cosign
+providerId: cosign
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://docs.sigstore.dev/cosign/system_config/installation/ ; registry metadata read from
+  proxy.golang.org, formulae.brew.sh and the GitHub Releases API on 2026-09-07
+description: >-
+  First-party distribution of the Cosign CLI and the Go library it ships. Cosign is an Apache-2.0
+  Sigstore project; every entry below is published by the sigstore GitHub organization. There is no
+  first-party JavaScript, Python, Ruby, PHP, Java or Rust client library for Cosign — the tool is a
+  Go binary, and the only importable first-party package is the Go module itself. The npm package
+  named "cosign" is an unrelated Bitcoin transaction tool and is NOT first-party.
+packages:
+  - name: github.com/sigstore/cosign/v3
+    registry: go
+    official: true
+    kind: library-and-cli
+    language: Go
+    url: https://pkg.go.dev/github.com/sigstore/cosign/v3
+    install: go install github.com/sigstore/cosign/v3/cmd/cosign@latest
+    version: v3.1.3
+    published: '2026-08-05'
+    note: >-
+      Current major line. Registry metadata read from
+      https://proxy.golang.org/github.com/sigstore/cosign/v3/@latest (Time 2026-08-05T23:43:27Z).
+      VERSIONING.md states the Go library ("the Cosign API") carries no stability guarantees yet and
+      is versioned independently of the CLI.
+  - name: github.com/sigstore/cosign/v2
+    registry: go
+    official: true
+    kind: library-and-cli
+    language: Go
+    url: https://pkg.go.dev/github.com/sigstore/cosign/v2
+    install: go install github.com/sigstore/cosign/v2/cmd/cosign@latest
+    version: v2.6.5
+    published: '2026-08-05'
+    note: >-
+      Maintained previous major line; still receiving releases in lockstep with v3 (v2.6.5 shipped the
+      same day as v3.1.3). Read from https://proxy.golang.org/github.com/sigstore/cosign/v2/@latest.
+  - name: cosign
+    registry: homebrew
+    official: true
+    kind: cli
+    url: https://formulae.brew.sh/formula/cosign
+    install: brew install cosign
+    version: 3.1.3
+    published: null
+    note: >-
+      Homebrew core formula, built from https://github.com/sigstore/cosign.git. Version read from
+      https://formulae.brew.sh/api/formula/cosign.json; the formula API does not expose a release
+      date, so `published` is null (checked, nothing to record).
+  - name: cosign
+    registry: github-releases
+    official: true
+    kind: binary
+    url: https://github.com/sigstore/cosign/releases
+    install: >-
+      curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64"
+    version: v3.1.3
+    published: '2026-08-06'
+    note: >-
+      Signed release binaries plus RPM and DEB packages for linux/darwin/windows on amd64 and arm64.
+      Release date read from the GitHub Releases API (published_at 2026-08-06T01:09:23Z). Every
+      release artifact is itself cosign-signed and logged to Rekor.
+  - name: ghcr.io/sigstore/cosign/cosign
+    registry: cdn
+    official: true
+    kind: container-image
+    url: https://github.com/sigstore/cosign/pkgs/container/cosign%2Fcosign
+    install: docker run --rm ghcr.io/sigstore/cosign/cosign:v3.1.3 version
+    version: v3.1.3
+    published: '2026-08-06'
+    note: >-
+      Released container image, tagged per release. A second CI-built stream is published at
+      ghcr.io/sigstore/cosign/cosign/ci/cosign tagged by commit. GHCR exposes no unauthenticated
+      metadata endpoint, so the version and date are taken from the matching GitHub release.
+  - name: cosign
+    registry: alpine
+    official: false
+    kind: cli
+    url: https://pkgs.alpinelinux.org/packages?name=cosign
+    install: apk add cosign
+    version: null
+    published: null
+    note: >-
+      Distribution package, maintained by Alpine (edge repository), not by the Sigstore project.
+      Documented as an install method at docs.sigstore.dev but not first-party. Version not read —
+      Alpine publishes no stable unauthenticated JSON metadata endpoint for a single package.
+  - name: cosign
+    registry: arch
+    official: false
+    kind: cli
+    url: https://archlinux.org/packages/extra/x86_64/cosign/
+    install: pacman -S cosign
+    version: null
+    published: null
+    note: Distribution package maintained by Arch Linux, not by the Sigstore project. Version not probed.
+  - name: cosign
+    registry: nixpkgs
+    official: false
+    kind: cli
+    url: https://search.nixos.org/packages?query=cosign
+    install: nix-env -iA nixpkgs.cosign
+    version: null
+    published: null
+    note: Distribution package maintained by nixpkgs, not by the Sigstore project. Version not probed.
+  - name: sigstore/cosign-installer
+    registry: github-actions
+    official: true
+    kind: ci-action
+    language: YAML
+    url: https://github.com/sigstore/cosign-installer
+    install: "uses: sigstore/cosign-installer@main"
+    version: null
+    published: null
+    note: >-
+      First-party GitHub Action that installs cosign into a workflow runner. Version null because the
+      documented usage at docs.sigstore.dev pins the floating `@main` ref rather than a release tag —
+      a consumer following the docs cannot tell which version they get either.
+counts:
+  total: 9
+  official: 6
+  languages:
+    - Go
