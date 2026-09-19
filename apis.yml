@@ -42,7 +42,7 @@ access: Public
 position: Producing
 tags:
   - Apache 2.0
-  - Attestations
+  - Attestation
   - CLI
   - Code Signing
   - Containers
