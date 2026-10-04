@@ -1,37 +1,35 @@
-# Kin Score artifact — cosign — 2026-09-02T224043
+# Kin Score artifact — cosign — 2026-09-25T232841
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: cosign
-  schema_version: 0.18.0
-  scored_at: '2026-09-02'
-  run_ts: 2026-09-02T224043
-  composite: 31.5
-  band: thin
+  schema_version: 0.23.0
+  scored_at: '2026-09-25'
+  run_ts: 2026-09-25T232841
+  composite: 42.5
+  band: developing
   facets:
-    discoverability: 64.8
-    contract_quality: 26.7
-    governance: 0.0
-    operational_transparency: 36.8
-    developer_ergonomics: 33.3
-    commercial_clarity: 15.8
-    contract_governance: 0.0
-    access_clarity: 15.8
+    discoverability: 69.6
+    contract_quality: 24.0
+    contract_governance: 18.2
+    operational_transparency: 50.0
+    developer_ergonomics: 78.0
+    access_clarity: 7.9
   agent_readiness:
-    score: 15.5
+    score: 21.8
     band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: false
       reversibility_documented: false
       mcp_server: false
-      auth_clarity: false
+      auth_clarity: bearer
       idempotency: false
-      error_semantics: false
+      error_semantics: documented
       openapi_examples: false
       rate_limit_signal: documented
       event_surface_described: false
-      agent_skills: false
+      agent_skills: derived
       well_known_catalog: false
       consent_identity: false
       agent_card: false
@@ -40,6 +38,16 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 22.5
+    matched_via: fallback
   open_source:
     applies: true
     score: 65.0
+  provenance:
+    mcp: derived
+    skills: derived
+    conformance: first-party
