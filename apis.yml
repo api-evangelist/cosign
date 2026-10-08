@@ -163,6 +163,8 @@ apis:
       - OIDC
       - Sigstore
 common:
+  - type: FinOps
+    url: finops/cosign-finops.yml
   - type: IssueTracker
     url: https://github.com/sigstore/cosign/issues
   - type: CodeOfConduct
