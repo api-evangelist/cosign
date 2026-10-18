@@ -56,7 +56,7 @@ tags:
   - Go
   - Keyless
   - OCI
-  - OIDC
+  - OpenID Connect
   - Open Source
   - Rekor
   - Sigstore
@@ -157,6 +157,12 @@ apis:
       - type: GitHubRepository
         url: https://github.com/sigstore/fulcio
     tags:
+      - CA
+      - Certificates
+      - Fulcio
+      - OpenID Connect
+      - Sigstore
+    tags_raw:
       - CA
       - Certificates
       - Fulcio
