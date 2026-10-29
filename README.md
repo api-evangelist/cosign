@@ -1,4 +1,4 @@
-# Cosign (cosign)
+# Cosign
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,63 +64,119 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cosign is the command-line client of the Sigstore project for signing, verifying, and storing container images, OCI artifacts, blobs, and in-toto attestations. Cosign supports keyless signing via OIDC identity providers, short-lived certificates from Fulcio, and transparency log recording in Rekor.
+Cosign is the command-line client of the Sigstore project for signing, verifying, and storing container images, OCI artifacts, blobs, and in-toto attestations. Cosign supports keyless signing using OpenID Connect identity providers (Google, GitHub, Microsoft) by obtaining short-lived certificates from the Fulcio certificate authority and recording signing events in the Rekor transparency log. Signatures and attestations are stored alongside the signed artifact in any OCI-compliant registry, and cosign integrates with policy controllers, KMS providers, hardware tokens, and SBOM workflows for software supply chain security.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/cosign/refs/heads/main/apis.yml)
+**Areas:** Apache 2.0 · Attestation · CLI · Code Signing · Containers · Fulcio · Go · Keyless · OCI · OpenID Connect · Open Source · Rekor
 
-## Scope
+## Cosign on APIs.io
 
-- **Type:** Index
-- **Position:** Provider
-- **Access:** Public
-- **x-type:** opensource
+Everything profiled for Cosign is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cosign/](https://apis.io/providers/cosign/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (3)
 
-- Apache 2.0, Attestations, CLI, Code Signing, Containers, Fulcio, Go, Keyless, OCI, OIDC, Open Source, Rekor, Sigstore, Supply Chain, Transparency Log, Verification
+- [Cosign CLI](https://apis.io/apis/cosign/cosign-cli/) — Cosign is a command-line tool for signing, verifying, and storing container images and OCI artifacts. It supports keyless signing, hardware-backed keys, KMS…
+- [Sigstore Rekor API (consumed)](https://apis.io/apis/cosign/rekor-api/) — Rekor is the Sigstore transparency log that cosign writes to and reads from when recording and verifying signing events. The public Rekor service exposes a…
+- [Sigstore Fulcio API (consumed)](https://apis.io/apis/cosign/fulcio-api/) — Fulcio is the Sigstore certificate authority that issues short-lived X.509 code-signing certificates bound to OIDC identities. Cosign calls the Fulcio…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-26
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### Cosign CLI
+Model Context Protocol servers that expose the API to agents.
 
-Command-line tool for signing, verifying, and storing container images and OCI artifacts. Supports keyless signing, hardware keys, KMS providers, attestations, and transparency log inclusion.
+- [cosign-mcp.yml](https://apis.io/servers/cosign/cosign-mcp-yml/)
 
-- [Documentation](https://docs.sigstore.dev/cosign/)
-- [Getting Started](https://docs.sigstore.dev/quickstart/quickstart-cosign/)
-- [GitHub](https://github.com/sigstore/cosign)
-- [Reference](https://docs.sigstore.dev/cosign/reference/cosign/)
+#### Security (3)
 
-### Sigstore Rekor API (consumed)
+Authentication, trust centre, and vulnerability disclosure.
 
-Public Sigstore transparency log REST API that cosign writes to and reads from when recording and verifying signing events.
+- [Cosign Authentication](https://apis.io/security/cosign/cosign-authentication/)
+- [Cosign Domain Security](https://apis.io/security/cosign/cosign-domain-security/)
+- [Cosign Vulnerability Disclosure](https://apis.io/security/cosign/cosign-vulnerability-disclosure/)
 
-- [Documentation](https://docs.sigstore.dev/logging/overview/)
-- [OpenAPI](https://raw.githubusercontent.com/sigstore/rekor/main/openapi.yaml)
-- [GitHub](https://github.com/sigstore/rekor)
+#### Plans and pricing (1)
 
-### Sigstore Fulcio API (consumed)
+Published plans, tiers and prices.
 
-Public Sigstore code-signing certificate authority that issues short-lived X.509 certificates bound to OIDC identities for keyless signing.
+- [Cosign Plans Pricing](https://apis.io/plans/cosign/cosign-plans-pricing/)
 
-- [Documentation](https://docs.sigstore.dev/certificate_authority/overview/)
-- [GitHub](https://github.com/sigstore/fulcio)
+#### Rate limits (1)
 
-## Common Properties
+Published request limits.
+
+- [Cosign Rate Limits](https://apis.io/rate-limits/cosign/cosign-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Cosign Finops](https://apis.io/finops/cosign/cosign-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.sigstore.dev/)
 - [Documentation](https://docs.sigstore.dev/cosign/)
-- [Getting Started](https://docs.sigstore.dev/quickstart/quickstart-cosign/)
-- [Installation](https://docs.sigstore.dev/cosign/system_config/installation/)
-- [GitHub Repository](https://github.com/sigstore/cosign)
+- [Getting started](https://docs.sigstore.dev/quickstart/quickstart-cosign/)
 - [Blog](https://blog.sigstore.dev/)
-- [License](https://github.com/sigstore/cosign/blob/main/LICENSE)
+- [Security](https://github.com/sigstore/cosign/security)
+- [GitHub](https://github.com/sigstore)
+- [Status](https://status.sigstore.dev/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 41.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 69.6 |
+| Contract quality | 24.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 78.0 |
+| Access clarity | 0.0 |
+
+**Agent readiness 21.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cosign/](https://apis.io/providers/cosign/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cosign: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cosign/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
